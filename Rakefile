@@ -13,9 +13,8 @@ begin
     gemspec.has_rdoc = false
     gemspec.require_paths = ["lib"]
     gemspec.add_dependency "fluent", "~> 0.9.14"
-    gemspec.add_dependency "couch", ">= 1.2.0"
     gemspec.test_files = Dir["test/**/*.rb"]
-    gemspec.files = Dir["bin/**/*", "lib/**/*", "test/**/*.rb"] + %w[VERSION AUTHORS Rakefile]
+    gemspec.files = Dir["lib/**/*", "test/**/*.rb"] + %w[VERSION AUTHORS Rakefile]
     gemspec.executables = []
   end
   Jeweler::GemcutterTasks.new
