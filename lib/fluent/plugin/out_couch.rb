@@ -1,7 +1,5 @@
-require 'net/http'
-
 module Couch
-
+    require 'net/http'
     class Server
         def initialize(host, port, options = nil)
             @host = host
@@ -79,6 +77,7 @@ module Fluent
                     # EOFError always occured when reached end of chunk.
                 end
             }
+            #TODO: bulk insert
             for record in records
                 @server.post(@database_name,record.to_json)
             end
