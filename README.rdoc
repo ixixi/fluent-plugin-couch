@@ -1,0 +1,35 @@
+= CouchDB output plugin for Fluent
+
+== Component
+
+=== CouchDBOutput
+
+Store fluent-event as CouchDB Document to CouchDB database.
+
+== Configuratin
+
+=== CouchOutput
+
+    <match couch.**>
+      type couch
+      database fluent
+
+      # following attibutes are optional
+      host fluenter
+      port 10000
+
+      # Other buffer configurations here
+    </match>
+
+== TODO
+ - Bulk Insert
+
+=== More configuration
+
+
+== Tool
+
+== Copyright
+
+Copyright:: Copyright (c) 2011- Yudai Odagiri
+License::   Apache License, Version 2.0
