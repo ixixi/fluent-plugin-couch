@@ -56,8 +56,8 @@ module Fluent
 
         def start
             super
-            @server = Couch::Server.new(@host, @port)
-            @server.put(@database_name, "")
+            @couch = Couch::Server.new(@host, @port)
+            @couch.put(@database_name, "")
         end
 
         def shutdown
@@ -79,7 +79,7 @@ module Fluent
             }
             #TODO: bulk insert
             for record in records
-                @server.post(@database_name,record.to_json)
+                @couch.post(@database_name,record.to_json)
             end
         end
     end
