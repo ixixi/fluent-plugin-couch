@@ -59,9 +59,6 @@ module Fluent
 
         def start
             super
-            p @database
-            p @host
-            p @port
             @couch = Couch::Server.new(@host, @port)
             @couch.put(@database, "")
         end
