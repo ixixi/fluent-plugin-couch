@@ -1,3 +1,4 @@
+
 module Couch
     require 'net/http'
     class Server
@@ -40,6 +41,12 @@ end
 module Fluent
     class CouchOutput < BufferedOutput
         Fluent::Plugin.register_output('couch', self)
+        
+        config_param :database, :string => nil do |val|
+            '/'+val
+        end
+        config_param :host, :string, :default => 'localhost'
+        config_param :port, :string, :default => '5984'
 
         def initialize
             super
@@ -48,16 +55,15 @@ module Fluent
 
         def configure(conf)
             super
-            @database_name = '/'+conf['database'] if conf.has_key?('database')
-            raise ConfigError, "'database' parameter is required on couch output" if @database_name.nil?
-            @host = conf['host'] || 'localhost'
-            @port = conf['port'] || '5984'
         end
 
         def start
             super
+            p @database
+            p @host
+            p @port
             @couch = Couch::Server.new(@host, @port)
-            @couch.put(@database_name, "")
+            @couch.put(@database, "")
         end
 
         def shutdown
@@ -79,7 +85,7 @@ module Fluent
             }
             #TODO: bulk insert
             for record in records
-                @couch.post(@database_name,record.to_json)
+                @couch.post(@database,record.to_json)
             end
         end
     end
