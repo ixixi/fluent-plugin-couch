@@ -80,13 +80,12 @@ module Fluent
 
         def write(chunk)
             records = []
-            chunk.msgpack_each {|record|
-                records << record
-            }
-            #TODO: bulk insert
-            for record in records
-                @couch.post(@database,record.to_json)
-            end
+            chunk.msgpack_each {|record| records << record }
+            @couch.post(@database+'/_bulk_docs', {"all_or_nothing"=>true, "docs"=>records}.to_json)
+
+            #for record in records
+            #    @couch.post(@database,record.to_json)
+            #end
         end
     end
 end
