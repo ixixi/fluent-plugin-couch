@@ -40,6 +40,8 @@ end
 
 module Fluent
     class CouchOutput < BufferedOutput
+        include SetTimeKeyMixin
+
         Fluent::Plugin.register_output('couch', self)
         
         config_param :database, :string => nil do |val|
