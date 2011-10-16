@@ -64,8 +64,8 @@ module Fluent
             super
         end
 
-        def format(tag, event)
-            event.record.to_msgpack
+        def format(tag, time, record)
+            record.to_msgpack
         end
 
         def write(chunk)
