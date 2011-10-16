@@ -1,4 +1,3 @@
-
 module Couch
     require 'net/http'
     class Server
@@ -82,10 +81,6 @@ module Fluent
             records = []
             chunk.msgpack_each {|record| records << record }
             @couch.post(@database+'/_bulk_docs', {"all_or_nothing"=>true, "docs"=>records}.to_json)
-
-            #for record in records
-            #    @couch.post(@database,record.to_json)
-            #end
         end
     end
 end
