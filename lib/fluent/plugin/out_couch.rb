@@ -40,7 +40,12 @@ end
 
 module Fluent
     class CouchOutput < BufferedOutput
+        
+        include SetTagKeyMixin
+        config_set_default :include_tag_key, false
+
         include SetTimeKeyMixin
+        config_set_default :include_time_key, true
 
         Fluent::Plugin.register_output('couch', self)
         
@@ -75,12 +80,8 @@ module Fluent
 
         def write(chunk)
             records = []
-            chunk.open { |io|
-                begin
-                    MessagePack::Unpacker.new(io).each { |record| records << record }
-                rescue EOFError
-                    # EOFError always occured when reached end of chunk.
-                end
+            chunk.msgpack_each {|record|
+                records << record
             }
             #TODO: bulk insert
             for record in records
