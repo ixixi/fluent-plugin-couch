@@ -25,7 +25,6 @@ Store fluent-event as CouchDB Document to CouchDB database.
     </match>
 
 == TODO
-- add "time" field
 - Bulk Insert
  
 
