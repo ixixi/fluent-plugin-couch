@@ -1,5 +1,8 @@
 = CouchDB output plugin for Fluent
 
+== Install
+ - $ sudo gem install fluent-plugin-couch
+
 == Component
 
 === CouchDBOutput
