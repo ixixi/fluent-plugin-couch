@@ -29,7 +29,8 @@ Store fluent-event as CouchDB Document to CouchDB database.
 ==== Configuration option "regenerating_views_on_update [true(default)/false]"
 * http://wiki.apache.org/couchdb/Regenerating_views_on_update
 
-
+== Feature
+* update document ( can be used to handle events such as updating the status of the server.)
 
 == Tool
 
