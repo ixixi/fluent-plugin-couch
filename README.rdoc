@@ -9,7 +9,7 @@
 
 Store fluent-event as CouchDB Document to CouchDB database.
 
-== Configuratin
+== Configuration
 
 === CouchOutput
 
