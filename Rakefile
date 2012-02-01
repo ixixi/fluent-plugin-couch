@@ -6,13 +6,14 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gemspec|
     gemspec.name = "fluent-plugin-couch"
-    gemspec.summary = "CouchDB output plugin for Fluent event collector"
+    gemspec.summary = "CouchDB output plugin for Fluentd event collector"
     gemspec.author = "Yudai Odagiri"
     gemspec.email = "ixixizko@gmail.com"
-    gemspec.homepage = "http://github.com/fluent"
+    gemspec.homepage = "http://github.com/ixixi/fluent-plugin-couch"
     gemspec.has_rdoc = false
     gemspec.require_paths = ["lib"]
     gemspec.add_dependency "fluentd", "~> 0.10.0"
+    gemspec.add_dependency "couchrest", "~> 1.1.2"
     gemspec.test_files = Dir["test/**/*.rb"]
     gemspec.files = Dir["lib/**/*", "test/**/*.rb"] + %w[VERSION AUTHORS Rakefile]
     gemspec.executables = []
