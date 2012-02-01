@@ -14,6 +14,9 @@ module Fluent
         config_param :port, :string, :default => '5984'
 
         config_param :refresh_view_index , :string, :default => nil
+        
+        config_param :user, :string, :default => nil
+        config_param :password, :string, :default => nil
 
         def initialize
             super
@@ -28,11 +31,19 @@ module Fluent
 
         def start
             super
-            @db = CouchRest.database("http://#{@host}:#{@port}/#{@database}")
+            if @user && @password
+                @db = CouchRest.database!("http://#{@user}:#{@password}@#{@host}:#{@port}/#{@database}")
+            else
+                @db = CouchRest.database!("http://#{@host}:#{@port}/#{@database}")
+            end
             @views = []
-            unless @refresh_view_index.nil?
-                @db.get("_design/#{@refresh_view_index}")['views'].each do |view_name,func|
-                    @views.push([@refresh_view_index,view_name])
+            if @refresh_view_index
+                begin
+                    @db.get("_design/#{@refresh_view_index}")['views'].each do |view_name,func|
+                        @views.push([@refresh_view_index,view_name])
+                    end
+                rescue
+                    puts 'design document not found!'
                 end
             end
         end
