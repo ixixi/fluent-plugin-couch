@@ -1,7 +1,14 @@
-= CouchDB output plugin for Fluent
+= CouchDB output plugin for Fluentd
 
-== Install
- $ gem install fluent-plugin-couch
+fluent-plugin-couch provides output plugins for {Fluentd}[http://fluentd.org/].
+
+= Installation
+
+== Gems
+
+The gem is hosted at {Rubygems.org}[http://rubygems.org]. You can install the gem as follows:
+
+    $ fluent-gem install fluent-plugin-couch
 
 == Component
 
