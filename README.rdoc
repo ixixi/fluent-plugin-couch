@@ -37,8 +37,7 @@ Store fluent-event as CouchDB Document to CouchDB database.
 
 == TODO
 === More configuration
-
-== Feature
+=== Feature
 * update document ( can be used to handle events such as updating the status of the server.)
 
 == Tool
