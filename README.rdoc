@@ -1,7 +1,14 @@
-= CouchDB output plugin for Fluent
+= CouchDB output plugin for Fluentd
 
-== Install
- $ gem install fluent-plugin-couch
+fluent-plugin-couch provides output plugins for {Fluentd}[http://fluentd.org/].
+
+= Installation
+
+== Gems
+
+The gem is hosted at {Rubygems.org}[http://rubygems.org]. You can install the gem as follows:
+
+    $ fluent-gem install fluent-plugin-couch
 
 == Component
 
@@ -18,18 +25,19 @@ Store fluent-event as CouchDB Document to CouchDB database.
       database fluent
 
       # following attibutes are optional
-      host fluenter
-      port 10000
+      host fluenter    #default:localhost
+      port 10000       #default:5984
+
+      # for Basic Authentication (optional)
+      user odagiri
+      password yudai
 
       # Other buffer configurations here
     </match>
 
 == TODO
 === More configuration
-==== Configuration option "regenerating_views_on_update [true(default)/false]"
-* http://wiki.apache.org/couchdb/Regenerating_views_on_update
-
-== Feature
+=== Feature
 * update document ( can be used to handle events such as updating the status of the server.)
 
 == Tool
