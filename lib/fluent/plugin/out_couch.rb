@@ -20,9 +20,11 @@ module Fluent
 
         def initialize
             super
-            Encoding.default_internal = 'UTF-8'
+            
             require 'msgpack'
+            Encoding.default_internal = 'UTF-8'
             require 'couchrest'
+            Encoding.default_internal = 'ASCII-8BIT'
         end
 
         def configure(conf)
