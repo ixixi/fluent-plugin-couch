@@ -12,6 +12,7 @@ module Fluent
 
         config_param :host, :string, :default => 'localhost'
         config_param :port, :string, :default => '5984'
+        config_param :protocol, :string, :default => 'http'
 
         config_param :refresh_view_index , :string, :default => nil
         
@@ -32,11 +33,11 @@ module Fluent
         end
 
         def start
-            super
+    
             if @user && @password
-                @db = CouchRest.database!("http://#{@user}:#{@password}@#{@host}:#{@port}/#{@database}")
+                @db = CouchRest.database!("#{@protocol}://#{@user}:#{@password}@#{@host}:#{@port}/#{@database}")
             else
-                @db = CouchRest.database!("http://#{@host}:#{@port}/#{@database}")
+                @db = CouchRest.database!("#{@protocol}://#{@host}:#{@port}/#{@database}")
             end
             @views = []
             if @refresh_view_index

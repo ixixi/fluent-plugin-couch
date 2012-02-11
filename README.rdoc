@@ -27,6 +27,7 @@ Store fluent-event as CouchDB Document to CouchDB database.
       # following attibutes are optional
       host fluenter    #default:localhost
       port 10000       #default:5984
+      protocol https   #default:http
 
       # for Basic Authentication (optional)
       user odagiri
