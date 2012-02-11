@@ -33,7 +33,7 @@ module Fluent
         end
 
         def start
-    
+            super
             if @user && @password
                 @db = CouchRest.database!("#{@protocol}://#{@user}:#{@password}@#{@host}:#{@port}/#{@database}")
             else
