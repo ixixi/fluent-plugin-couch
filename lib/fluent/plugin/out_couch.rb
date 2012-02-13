@@ -21,11 +21,13 @@ module Fluent
         
         config_param :update_docs, :bool, :default => false
         config_param :doc_key_field, :string, :default => nil
+        config_param :doc_key_jsonpath, :string, :default => nil
         
         def initialize
             super
             
             require 'msgpack'
+            require 'jsonpath'
             Encoding.default_internal = 'UTF-8'
             require 'couchrest'
             Encoding.default_internal = 'ASCII-8BIT'
@@ -62,7 +64,10 @@ module Fluent
         def write(chunk)
             records = []
             chunk.msgpack_each {|record|
-                record['_id'] = record[@doc_key_field] unless @doc_key_field.nil?
+                
+                id = record[@doc_key_field]
+                id = JsonPath.new(@doc_key_jsonpath).first(record) if id.nil? && !@doc_key_jsonpath.nil?
+                record['_id'] = id unless id.nil?
                 records << record
             }
             unless @update_docs

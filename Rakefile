@@ -14,6 +14,7 @@ begin
     gemspec.require_paths = ["lib"]
     gemspec.add_dependency "fluentd", "~> 0.10.0"
     gemspec.add_dependency "couchrest", "~> 1.1.2"
+    gemspec.add_dependency "jsonpath", "~> 0.4.2"
     gemspec.test_files = Dir["test/**/*.rb"]
     gemspec.files = Dir["lib/**/*", "test/**/*.rb"] + %w[VERSION AUTHORS Rakefile]
     gemspec.executables = []
