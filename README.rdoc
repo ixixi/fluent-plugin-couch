@@ -32,6 +32,7 @@ Store fluent-event as CouchDB Document to CouchDB database.
 
       update_docs true             #default:false
       doc_key_field doc_id         #default:nil
+      doc_key_jsonpath $.event.key #default:nil
 
       refresh_view_index viewname  #default:nil
 
