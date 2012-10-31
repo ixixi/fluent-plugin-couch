@@ -87,7 +87,6 @@ module Fluent
                         rescue
                     end
                     record['_rev']=doc['_rev'] unless doc.nil?
-                    puts record
                     @db.save_doc(record) 
                 }
             end
