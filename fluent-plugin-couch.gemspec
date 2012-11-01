@@ -4,13 +4,13 @@
 # -*- encoding: utf-8 -*-
 
 Gem::Specification.new do |s|
-  s.name = %q{fluent-plugin-couch}
-  s.version = "0.5.0"
+  s.name = "fluent-plugin-couch"
+  s.version = "0.6.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = [%q{Yudai Odagiri}]
-  s.date = %q{2012-02-13}
-  s.email = %q{ixixizko@gmail.com}
+  s.authors = ["Yudai Odagiri"]
+  s.date = "2012-11-01"
+  s.email = "ixixizko@gmail.com"
   s.extra_rdoc_files = [
     "README.rdoc"
   ]
@@ -20,10 +20,10 @@ Gem::Specification.new do |s|
     "VERSION",
     "lib/fluent/plugin/out_couch.rb"
   ]
-  s.homepage = %q{http://github.com/ixixi/fluent-plugin-couch}
-  s.require_paths = [%q{lib}]
-  s.rubygems_version = %q{1.8.7}
-  s.summary = %q{CouchDB output plugin for Fluentd event collector}
+  s.homepage = "http://github.com/ixixi/fluent-plugin-couch"
+  s.require_paths = ["lib"]
+  s.rubygems_version = "1.8.23"
+  s.summary = "CouchDB output plugin for Fluentd event collector"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
