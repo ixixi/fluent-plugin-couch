@@ -48,7 +48,7 @@ module Fluent
                         @views.push([@refresh_view_index,view_name])
                     end
                     rescue
-                    puts 'design document not found!'
+                    $log.error 'design document not found!'
                 end
             end
         end
@@ -87,7 +87,7 @@ module Fluent
                         rescue
                     end
                     record['_rev']=doc['_rev'] unless doc.nil?
-                    puts record
+                    $log.debug record
                     @db.save_doc(record) 
                 }
             end
