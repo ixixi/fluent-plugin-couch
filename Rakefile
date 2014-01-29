@@ -7,7 +7,7 @@ begin
   Jeweler::Tasks.new do |gemspec|
     gemspec.name = "fluent-plugin-couch"
     gemspec.summary = "CouchDB output plugin for Fluentd event collector"
-    gemspec.author = "Yudai Odagiri"
+    gemspec.author = "Yuri Odagiri"
     gemspec.email = "ixixizko@gmail.com"
     gemspec.homepage = "http://github.com/ixixi/fluent-plugin-couch"
     gemspec.has_rdoc = false
