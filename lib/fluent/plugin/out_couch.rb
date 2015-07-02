@@ -17,7 +17,7 @@ module Fluent
         config_param :refresh_view_index , :string, :default => nil
         
         config_param :user, :string, :default => nil
-        config_param :password, :string, :default => nil
+        config_param :password, :string, :default => nil, :secret => true
         
         config_param :update_docs, :bool, :default => false
         config_param :doc_key_field, :string, :default => nil
