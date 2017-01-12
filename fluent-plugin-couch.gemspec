@@ -29,16 +29,16 @@ Gem::Specification.new do |s|
     s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<fluentd>, ["~> 0.10.0"])
+      s.add_runtime_dependency(%q<fluentd>, [">= 0.10.0", "< 2"])
       s.add_runtime_dependency(%q<couchrest>, ["~> 1.1.2"])
       s.add_runtime_dependency(%q<jsonpath>, ["~> 0.4.2"])
     else
-      s.add_dependency(%q<fluentd>, ["~> 0.10.0"])
+      s.add_dependency(%q<fluentd>, [">= 0.10.0", "< 2"])
       s.add_dependency(%q<couchrest>, ["~> 1.1.2"])
       s.add_dependency(%q<jsonpath>, ["~> 0.4.2"])
     end
   else
-    s.add_dependency(%q<fluentd>, ["~> 0.10.0"])
+    s.add_dependency(%q<fluentd>, [">= 0.10.0", "< 2"])
     s.add_dependency(%q<couchrest>, ["~> 1.1.2"])
     s.add_dependency(%q<jsonpath>, ["~> 0.4.2"])
   end
