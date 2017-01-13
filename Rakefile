@@ -25,7 +25,8 @@ rescue LoadError
 end
 
 Rake::TestTask.new(:test) do |t|
-  t.test_files = Dir['test/*_test.rb']
+  t.libs << "test"
+  t.test_files = Dir["test/**/test_*.rb"].sort
   t.ruby_opts = ['-rubygems'] if defined? Gem
   t.ruby_opts << '-I.'
 end
