@@ -18,6 +18,13 @@ class CouchOutputTest < Test::Unit::TestCase
     update_docs true
   ]
 
+  CONFIG_JSONPATH = %[
+    type couch
+    database fluent
+    doc_key_field key
+    doc_key_jsonpath $.nested.key
+  ]
+
   def create_driver(config = CONFIG)
     Fluent::Test::BufferedOutputTestDriver.new(Fluent::CouchOutput).configure(config)
   end
@@ -58,5 +65,14 @@ class CouchOutputTest < Test::Unit::TestCase
     record = d.instance.instance_variable_get(:@db).get("record-1")
     assert_equal(rows, previous_rows)
     assert_equal("record-mod", record["message"])
+  end
+
+  def test_write_doc_key_jsonoath
+    d = create_driver(CONFIG_JSONPATH)
+    time = Time.now.to_i
+    d.emit({"nested" => {"key" => "record-nested", "message" => "record"}}, time)
+    d.run
+    record = d.instance.instance_variable_get(:@db).get("record-nested")
+    assert_equal({"key" => "record-nested", "message" => "record"}, record["nested"])
   end
 end
