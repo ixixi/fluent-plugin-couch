@@ -45,11 +45,11 @@ class CouchOutputTest < Test::Unit::TestCase
 
   def test_write
     d = create_driver
-    previous_rows = d.instance.instance_variable_get(:@db).all_docs["total_rows"]
+    previous_rows = d.instance.db.all_docs["total_rows"]
     time = Time.now.to_i
     d.emit({"message" => "record"}, time)
     d.run
-    rows = d.instance.instance_variable_get(:@db).all_docs["total_rows"]
+    rows = d.instance.db.all_docs["total_rows"]
     assert_equal(rows, previous_rows + 1)
   end
 
@@ -58,11 +58,11 @@ class CouchOutputTest < Test::Unit::TestCase
     time = Time.now.to_i
     d.emit({"key" => "record-1", "message" => "record"}, time)
     d.run
-    previous_rows = d.instance.instance_variable_get(:@db).all_docs["total_rows"]
+    previous_rows = d.instance.db.all_docs["total_rows"]
     d.emit({"key" => "record-1", "message" => "record-mod"}, time)
     d.run
-    rows = d.instance.instance_variable_get(:@db).all_docs["total_rows"]
-    record = d.instance.instance_variable_get(:@db).get("record-1")
+    rows = d.instance.db.all_docs["total_rows"]
+    record = d.instance.db.get("record-1")
     assert_equal(rows, previous_rows)
     assert_equal("record-mod", record["message"])
   end
@@ -72,7 +72,7 @@ class CouchOutputTest < Test::Unit::TestCase
     time = Time.now.to_i
     d.emit({"nested" => {"key" => "record-nested", "message" => "record"}}, time)
     d.run
-    record = d.instance.instance_variable_get(:@db).get("record-nested")
+    record = d.instance.db.get("record-nested")
     assert_equal({"key" => "record-nested", "message" => "record"}, record["nested"])
   end
 end

@@ -1,5 +1,7 @@
 module Fluent
     class CouchOutput < BufferedOutput
+        attr_reader :db # for tests
+
         include SetTagKeyMixin
         config_set_default :include_tag_key, false
         
