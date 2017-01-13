@@ -35,12 +35,12 @@ module Fluent
         
         def configure(conf)
             super
+            account = "#{@user}:#{@password}@" if @user && @password
+            @db = CouchRest.database!("#{@protocol}://#{account}#{@host}:#{@port}/#{@database}")
         end
         
         def start
             super
-            account = "#{@user}:#{@password}@" if @user && @password 
-            @db = CouchRest.database!("#{@protocol}://#{account}#{@host}:#{@port}/#{@database}")
             @views = []
             if @refresh_view_index
                 begin
