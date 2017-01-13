@@ -32,15 +32,21 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<fluentd>, [">= 0.10.0", "< 2"])
       s.add_runtime_dependency(%q<couchrest>, ["~> 1.1.2"])
       s.add_runtime_dependency(%q<jsonpath>, ["~> 0.4.2"])
+      s.add_development_dependency(%q<rake>, [">= 12.0.0"])
+      s.add_development_dependency(%q<test-unit>, ["~> 3.2.0"])
     else
       s.add_dependency(%q<fluentd>, [">= 0.10.0", "< 2"])
       s.add_dependency(%q<couchrest>, ["~> 1.1.2"])
       s.add_dependency(%q<jsonpath>, ["~> 0.4.2"])
+      s.add_development_dependency(%q<rake>, [">= 12.0.0"])
+      s.add_development_dependency(%q<test-unit>, ["~> 3.2.0"])
     end
   else
     s.add_dependency(%q<fluentd>, [">= 0.10.0", "< 2"])
     s.add_dependency(%q<couchrest>, ["~> 1.1.2"])
     s.add_dependency(%q<jsonpath>, ["~> 0.4.2"])
+    s.add_development_dependency(%q<rake>, [">= 12.0.0"])
+    s.add_development_dependency(%q<test-unit>, ["~> 3.2.0"])
   end
 end
 
