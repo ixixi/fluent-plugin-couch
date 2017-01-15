@@ -10,19 +10,16 @@ class CouchOutputTest < Test::Unit::TestCase
   COUCHHOST = ENV['COUCHHOST'] || "http://127.0.0.1:5984"
 
   CONFIG = %[
-    type couch
     database #{DATABASE_NAME}
   ]
 
   CONFIG_UPDATE_DOC = %[
-    type couch
     database #{DATABASE_NAME}
     doc_key_field key
     update_docs true
   ]
 
   CONFIG_JSONPATH = %[
-    type couch
     database #{DATABASE_NAME}
     doc_key_field key
     doc_key_jsonpath $.nested.key
