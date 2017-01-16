@@ -25,6 +25,12 @@ class CouchOutputTest < Test::Unit::TestCase
     doc_key_jsonpath $.nested.key
   ]
 
+  CONFIG_DESIGN = %[
+    database #{DATABASE_NAME}
+    doc_key_field key
+    refresh_view_index d01
+  ]
+
   def prepare_db
     @cr = CouchRest.new(COUCHHOST)
     @db = @cr.database(DATABASE_NAME)
@@ -110,6 +116,43 @@ class CouchOutputTest < Test::Unit::TestCase
       @d.run
       record = @d.instance.db.get("record-nested")
       assert_equal({"key" => "record-nested", "message" => "record"}, record["nested"])
+    end
+  end
+
+  class WriteWithDesignTest < self
+    def setup
+      @d = create_driver(CONFIG_DESIGN)
+      prepare_db
+      setup_design
+    end
+
+    def setup_design
+      message_by_key = {
+        :map => 'function(doc) {
+          if (doc._id == "record-design") {
+            emit(doc._id, doc.message);
+          }
+        }',
+      }
+      @db.delete_doc db.get("_design/d01") rescue nil
+      @db.save_doc({
+        "_id" => "_design/d01",
+        :views => {
+          :messages => message_by_key
+        }
+      })
+    end
+
+    def teardown
+      @db.delete!
+    end
+
+    def test_write_with_design_view
+      time = Time.now.to_i
+      @d.emit({"key" => "record-design", "message" => "record"}, time)
+      @d.run
+      record = @d.instance.db.get("record-design")
+      assert_equal("record", record["message"])
     end
   end
 end
