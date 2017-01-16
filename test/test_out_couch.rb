@@ -86,7 +86,7 @@ class CouchOutputTest < Test::Unit::TestCase
       @db.delete!
     end
 
-    def test_write_update_doc
+    def test_write
       time = Time.now.to_i
       @d.emit({"key" => "record-1", "message" => "record"}, time)
       @d.run
@@ -110,7 +110,7 @@ class CouchOutputTest < Test::Unit::TestCase
       @db.delete!
     end
 
-    def test_write_doc_key_jsonpath
+    def test_write
       time = Time.now.to_i
       @d.emit({"nested" => {"key" => "record-nested", "message" => "record"}}, time)
       @d.run
@@ -147,7 +147,7 @@ class CouchOutputTest < Test::Unit::TestCase
       @db.delete!
     end
 
-    def test_write_with_design_view
+    def test_write
       time = Time.now.to_i
       @d.emit({"key" => "record-design", "message" => "record"}, time)
       @d.run
