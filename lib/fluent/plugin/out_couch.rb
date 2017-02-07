@@ -1,5 +1,7 @@
 module Fluent
     class CouchOutput < BufferedOutput
+        attr_reader :db # for tests
+
         include SetTagKeyMixin
         config_set_default :include_tag_key, false
         
@@ -35,12 +37,12 @@ module Fluent
         
         def configure(conf)
             super
+            account = "#{@user}:#{@password}@" if @user && @password
+            @db = CouchRest.database!("#{@protocol}://#{account}#{@host}:#{@port}/#{@database}")
         end
         
         def start
             super
-            account = "#{@user}:#{@password}@" if @user && @password 
-            @db = CouchRest.database!("#{@protocol}://#{account}#{@host}:#{@port}/#{@database}")
             @views = []
             if @refresh_view_index
                 begin
