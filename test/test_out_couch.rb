@@ -23,10 +23,22 @@ class CouchOutputTest < Test::Unit::TestCase
     update_docs true
   ]
 
+  CONFIG_UPDATE_DOC_WITH_TAG_PLACEHOLDER = %[
+    database #{DATABASE_NAME}
+    doc_key_field ${tag}
+    update_docs true
+  ]
+
   CONFIG_JSONPATH = %[
     database #{DATABASE_NAME}
     doc_key_field key
     doc_key_jsonpath $.nested.key
+  ]
+
+  CONFIG_JSONPATH_WITH_TAG_PLACEHOLDER = %[
+    database #{DATABASE_NAME}
+    doc_key_field key
+    doc_key_jsonpath $.${tag}.key
   ]
 
   CONFIG_DESIGN = %[
@@ -106,6 +118,32 @@ class CouchOutputTest < Test::Unit::TestCase
     end
   end
 
+  class WriteWithUpdateDocWithTagPlaceHolderTest < self
+    def setup
+      @d = create_driver(CONFIG_UPDATE_DOC_WITH_TAG_PLACEHOLDER)
+      prepare_db
+    end
+
+    def teardown
+      @db.delete!
+    end
+
+    def test_write
+      time = event_time
+      tag = "replace.placeholder"
+      previous_rows = rows = 0
+      @d.run(default_tag: tag) do
+        @d.feed(time, {tag => "record-placeholder", "message" => "record"})
+        previous_rows = @d.instance.db.all_docs["total_rows"]
+        @d.feed(time, {tag => "record-placeholder", "message" => "record-placeholder"})
+        rows = @d.instance.db.all_docs["total_rows"]
+      end
+      assert_equal(rows, previous_rows)
+      record = @d.instance.db.get("record-placeholder")
+      assert_equal("record-placeholder", record["message"])
+    end
+  end
+
   class WriteWithJsonpathTest < self
     def setup
       @d = create_driver(CONFIG_JSONPATH)
@@ -123,6 +161,27 @@ class CouchOutputTest < Test::Unit::TestCase
       end
       record = @d.instance.db.get("record-nested")
       assert_equal({"key" => "record-nested", "message" => "record"}, record["nested"])
+    end
+  end
+
+  class WriteWithJsonpathWithTagPlaceholderTest < self
+    def setup
+      @d = create_driver(CONFIG_JSONPATH_WITH_TAG_PLACEHOLDER)
+      prepare_db
+    end
+
+    def teardown
+      @db.delete!
+    end
+
+    def test_write
+      time = event_time
+      tag = "couchrecord"
+      @d.run(default_tag: tag) do
+        @d.feed(time, {tag => {"key" => "record-nested", "message" => "record"}})
+      end
+      record = @d.instance.db.get("record-nested")
+      assert_equal({"key" => "record-nested", "message" => "record"}, record["couchrecord"])
     end
   end
 

@@ -79,10 +79,11 @@ module Fluent::Plugin
 
         def write(chunk)
             records = []
+            doc_key_field, doc_key_jsonpath = expand_placeholders(chunk.metadata)
             chunk.msgpack_each {|record|
 
-                id = record[@doc_key_field]
-                id = JsonPath.new(@doc_key_jsonpath).first(record) if id.nil? && !@doc_key_jsonpath.nil?
+                id = record[doc_key_field]
+                id = JsonPath.new(doc_key_jsonpath).first(record) if id.nil? && !doc_key_jsonpath.nil?
                 record['_id'] = id unless id.nil?
                 records << record
             }
@@ -113,6 +114,15 @@ module Fluent::Plugin
             @views.each do |design,view|
                 @db.view("#{design}/#{view}",{"limit"=>"0"})
             end
+        end
+
+        private
+
+        def expand_placeholders(metadata)
+            field = jsonpath = nil
+            field = extract_placeholders(@doc_key_field, metadata) if @doc_key_field
+            jsonpath = extract_placeholders(@doc_key_jsonpath, metadata) if @doc_key_jsonpath
+            return field, jsonpath
         end
     end
 end
