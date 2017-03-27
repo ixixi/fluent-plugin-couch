@@ -1,7 +1,11 @@
 require "fluent/test"
+require "fluent/test/driver/output"
+require "fluent/test/helpers"
 require "fluent/plugin/out_couch"
 
 class CouchOutputTest < Test::Unit::TestCase
+  include Fluent::Test::Helpers
+
   def setup
     Fluent::Test.setup
   end
@@ -39,7 +43,7 @@ class CouchOutputTest < Test::Unit::TestCase
   end
 
   def create_driver(config = CONFIG)
-    Fluent::Test::BufferedOutputTestDriver.new(Fluent::CouchOutput).configure(config)
+    Fluent::Test::Driver::Output.new(Fluent::Plugin::CouchOutput).configure(config)
   end
 
   def test_configure
@@ -68,9 +72,10 @@ class CouchOutputTest < Test::Unit::TestCase
 
     def test_write
       previous_rows = @d.instance.db.all_docs["total_rows"]
-      time = Time.now.to_i
-      @d.emit({"message" => "record"}, time)
-      @d.run
+      time = event_time
+      @d.run(default_tag: "tag") do
+        @d.feed(time, {"message" => "record"})
+      end
       rows = @d.instance.db.all_docs["total_rows"]
       assert_equal(rows, previous_rows + 1)
     end
@@ -87,13 +92,14 @@ class CouchOutputTest < Test::Unit::TestCase
     end
 
     def test_write
-      time = Time.now.to_i
-      @d.emit({"key" => "record-1", "message" => "record"}, time)
-      @d.run
-      previous_rows = @d.instance.db.all_docs["total_rows"]
-      @d.emit({"key" => "record-1", "message" => "record-mod"}, time)
-      @d.run
-      rows = @d.instance.db.all_docs["total_rows"]
+      time = event_time
+      previous_rows = rows = 0
+      @d.run(default_tag: "test") do
+        @d.feed(time, {"key" => "record-1", "message" => "record"})
+        previous_rows = @d.instance.db.all_docs["total_rows"]
+        @d.feed(time, {"key" => "record-1", "message" => "record-mod"})
+        rows = @d.instance.db.all_docs["total_rows"]
+      end
       record = @d.instance.db.get("record-1")
       assert_equal(rows, previous_rows)
       assert_equal("record-mod", record["message"])
@@ -111,9 +117,10 @@ class CouchOutputTest < Test::Unit::TestCase
     end
 
     def test_write
-      time = Time.now.to_i
-      @d.emit({"nested" => {"key" => "record-nested", "message" => "record"}}, time)
-      @d.run
+      time = event_time
+      @d.run(default_tag: "test") do
+        @d.feed(time, {"nested" => {"key" => "record-nested", "message" => "record"}})
+      end
       record = @d.instance.db.get("record-nested")
       assert_equal({"key" => "record-nested", "message" => "record"}, record["nested"])
     end
@@ -148,9 +155,10 @@ class CouchOutputTest < Test::Unit::TestCase
     end
 
     def test_write
-      time = Time.now.to_i
-      @d.emit({"key" => "record-design", "message" => "record"}, time)
-      @d.run
+      time = event_time
+      @d.run(default_tag: "test") do
+        @d.feed(time, {"key" => "record-design", "message" => "record"})
+      end
       record = @d.instance.db.get("record-design")
       assert_equal("record", record["message"])
     end
