@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
     "lib/fluent/plugin/out_couch.rb",
     "test/test_out_couch.rb"
   ]
-  s.homepage = "http://github.com/ixixi/fluent-plugin-couch"
+   s.homepage = "http://github.com/ixixi/fluent-plugin-couch"
   s.rubygems_version = "2.4.1"
   s.summary = "CouchDB output plugin for Fluentd event collector"
   s.test_files = ["test/test_out_couch.rb"]
