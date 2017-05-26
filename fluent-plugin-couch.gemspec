@@ -6,12 +6,12 @@
 
 Gem::Specification.new do |s|
   s.name = "fluent-plugin-couch".freeze
-  s.version = "0.8.1"
+  s.version = "0.9.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0".freeze) if s.respond_to? :required_rubygems_version=
   s.require_paths = ["lib".freeze]
   s.authors = ["Yuri Odagiri".freeze]
-  s.date = "2017-02-07"
+  s.date = "2017-05-26"
   s.email = "ixixizko@gmail.com".freeze
   s.extra_rdoc_files = [
     "README.rdoc"
